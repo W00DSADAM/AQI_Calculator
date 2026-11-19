@@ -67,6 +67,10 @@
   <div id="scale">
     <div id="marker"></div>
   </div>
+  <h2>Last 12 hours</h2>
+  <p>Newest hour: <input id="newest" type="number" min="0" max="23" value="13" onchange="buildHours()">
+  <button onclick="useHurrentHour()">Use current hour </button></p>
+  <div id="hours"></div>
   <script>
     // EPA PM2.5 tabe: [C_lo, C_hi, AQI_lo, AQI_hi]
     var rows = [
@@ -107,7 +111,26 @@
       document.getElementById("marker").style.left = "99%"; 
       result.className = "hazardous";
       category.textContent = "Beyond the AQI";
-    }    
+    }
+     // Build the 12 hour labels, newest first
+    function buildHours() {
+      var newest = parseInt(document.getElementById("newest").value);
+      var box = document.getElementById("hours";
+      box.innerHTML="";
+      for(var i = 0; i < 12; i++) {
+        var h = (newest - i + 24) % 24;
+        var label = document.createElement("div");
+        label.textContent = "Hour" + h + "(" + i + " hours ago)";
+        box.appendChild(label);
+      }
+    }
+    // Read the computer's clock
+    function useCurrentHour() {
+      var now = new Date();
+      document.getElementById("newest").value = now.getHours();
+      buildHours();
+    }
+  buildHours();
   </script>
 </body>
 </html>
