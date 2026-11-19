@@ -115,7 +115,7 @@
      // Build the 12 hour labels, newest first
     function buildHours() {
       var newest = parseInt(document.getElementById("newest").value);
-      var box = document.getElementById("hours";
+      var box = document.getElementById("hours");
       box.innerHTML="";
       for(var i = 0; i < 12; i++) {
         var h = (newest - i + 24) % 24;
