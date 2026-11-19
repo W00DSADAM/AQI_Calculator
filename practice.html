@@ -81,11 +81,11 @@
     var scale = document.getElementById("scale");
     var start = 0;
     for (var i = 0; i < rows.length; i++) {
-      var segment = document.createElment("div";
-      segment.className = rows [i][4];
+      var segment = document.createElement("div";
+      segment.className = rows[i][4];
       segment.style.width = (rows[i][3] - start) / 5 + "%"; 
       scale.appendChild(segment);
-      star = rows [i][3];
+      start = rows[i][3];
     }
     function calculate() { 
       var c = parseFloat(document.getElementById("conc").value);
