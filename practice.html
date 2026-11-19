@@ -9,12 +9,29 @@
   <button onclick="calculate()">Calculate</button>
   <p>AQI: <span id="result"></span></p>
   <script>
-    function calculate() {
+    // EPA PM2.5 tabe: [C_lo, C_hi, AQI_lo, AQI_hi]
+    var rows = [
+      [0.0, 9.0, 0, 50],
+      [9.1, 35.4, 51, 100],
+      [35.5, 55.4, 101, 150],
+      [55.5, 125.4, 151, 200],
+      [125.5, 225.4, 201, 300],
+      [225.5, 325.4, 301, 500]
+    ];
+
+    function calculate() { 
       var c = parseFloat(document.getElementById("conc").value);
-      // Moderate row: 9.1-35.4 ug/m3 is AQI 51-100
-      var aqi = (100 - 51) / (35.4 - 9.1) * (c - 9.1) + 51
-      document.getElementById("result").textContent = Math.round(aqi);
-    } 
+
+      for (var i = 0; i <rows.length; i++)  {
+        var r = rows[i];
+        if (c <= r[1]) {
+          var aqi = (r[3] - r[2]) / (r[1] - r[0]) * (c - r[0]) + r[2];
+          document.getElementById("result").textContent = Math.round(aqi);
+          return;
+        }
+      }
+      document.getElementById("result").textContent ="Above 500";
+    }    
   </script>
 </body>
 </html>
