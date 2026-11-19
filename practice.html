@@ -39,6 +39,23 @@
     .unhealthy { background: #ff0000; color: white; }
     .very      { background: #8f3f97; color: white; }
     .hazardous { background: #7e0023; color: white; }
+    #scale {
+      display: flex;
+      position:relative;
+      height: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    #marker {
+      position: absolute;
+      top: 0;
+      left: 0%;
+      width: 4px;
+      height: 16px;
+      background: black;
+    }
+    
   </style>
 </head>
 <body>
@@ -47,6 +64,15 @@
   <button onclick="calculate()">Calculate</button>
   <p>AQI: <span id="result"></span></p>
   <p id="category"></p>
+  <div id="scale">
+    <div class="good" style="width: 10%"></div>
+    <div class="moderate" style="width: 10%"></div>
+    <div class="usg" style="width: 10%"></div>
+    <div class="unhealthy" style="width: 10%"></div>
+    <div class="very" style="width: 20%"></div>div>
+    <div class="hazardous" style="width: 40%"></div>
+    <div id="marker"></div>
+  </div>
   <script>
     // EPA PM2.5 tabe: [C_lo, C_hi, AQI_lo, AQI_hi]
     var rows = [
@@ -70,10 +96,12 @@
           result.textContent = Math.round(aqi);
           result.className = r[4];
           category.textContent = r[5];
+          document.getElementById("marker").style.left = (aqi / 5) + "%";
           return;
         }
       }
       result.textContent ="Above 500";
+      document.getElementById("marker").style.left = "99%"; 
       result.className = "hazardous";
       category.textContent = "Beyond the AQI";
     }    
