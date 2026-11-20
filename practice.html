@@ -39,6 +39,16 @@
     .unhealthy { background: #ff0000; color: white; }
     .very      { background: #8f3f97; color: white; }
     .hazardous { background: #7e0023; color: white; }
+    label {
+      display: inline-block;
+      width: 150px;
+    }
+    .small-aqi {
+      margin-left: 10px;
+      padding: 2px 10px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
     #scale {
       display: flex;
       position:relative;
@@ -59,9 +69,9 @@
   </style>
 </head>
 <body>
-  <h1>PM2.5 to AQI</h1>
-  <p>PM2.5 (ug/m3): <input id="conc" value="11.1"></p> 
-  <button onclick="calculate()">Calculate</button>
+  <h1>AQI Calculator</h1>
+  <div id="inputs"></div>
+  <button onclock="calculateAll()">Calculate</button>
   <p>AQI: <span id="result"></span></p>
   <p id="category"></p>
   <div id="scale">
@@ -149,6 +159,54 @@
              }
              return categories[categories.length - 1];
            }
+    // The Pollutants: [id, label, units, table]
+    var pollutants = [
+      ["pm25", "PM2.5",  "ug/m3", pm25],
+      ["pm10", "PM10",  "ug/m3", pm10],
+      ["ozone", "Ozone (8-hr)",  "ppb", ozone],
+      ["so2", "SO2 (1-hr)",  "ppb", so2],
+    ];
+
+    // Build one row per pollutant: label, input box, AQI spot
+    var inputs = document.getElementById("inputs");
+    for (var i = 0; < pollutants.length; i++) {
+      var p = pollutants[i];
+      var row = document.createElement("p");
+      var label = document.createElement("label");
+      label.textContent = p[1] + " (" + p[2] + "):";
+      var box = document.careteElement("input");
+      box.id = "in-" + p[0];
+      var spot = dcoument.createElement("span");
+      spot.id = "aqi-" + p[0];
+      spot.className = "small-aqi";
+
+      row.appendChild(label);
+      row.appendChild(box);
+      row.appendChild(spot);
+      inputs.appendChild(row);
+    }
+    // Work out each pollutant's AQI
+    function calculateAll() {
+      for (var i = 0; i < pollutants.length; i++) {
+        var p = pollutants[i];
+        var text =- dcoument.getElementById("in-" + p[0].value;
+        var spot = document.getElementById("aqi-" + p[0]);
+
+        if (text == "") {
+          spot.textContent "";
+          spot.className = "small-aqi";
+        } else {
+          var aqi = aqiFor(parseFloat(text), p[3]);
+          if (aqi == null) {
+            spot.textContent = "beyond this table";
+            spott.className = "small-aqi";
+          } else {
+            spot.textContent = aqi;
+            spot.className = "small-aqi" + categoryFor(aqi)[1];
+          }
+        }
+      }
+    }
     // Build the color scale from the table
     var scale = document.getElementById("scale");
     var start = 0;
