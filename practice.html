@@ -120,7 +120,36 @@
       [300, "very", "Very Unhealthy"],
       [500, "hazardous", "Hazardous"],
      ];
-    
+    js
+        // The EPA formula for one row of a table
+        function formula (c, r) {
+          return Math.round((r[3] - r[2]) / (r[1] - r[0] * (c - r[0]) + r[2]);
+        }
+
+         // Find the right row in any table, then use the formula
+          function aqiFor (c, table) {
+            for (var i = 0; i < table.length; i++) {
+              if (c <= table[i][1]) {
+                return formula(c, table[i]);
+              }
+            }
+            // Past the end of the table 
+            var last = table[table.length - 1];
+            if (last[3] == 500) {
+              return formula(c, last);
+            }
+            return null;
+          }
+
+          //Find the category row [top AQI, class, name] for an AQI 
+           function categoryFor(aqi) {
+             for (var i = 0; i < categories.length; i++) {
+               if (aqi <= categories[i][0]) {
+                 return categories[i];
+               }
+             }
+             return categories[categories.length - 1];
+           }
     // Build the color scale from the table
     var scale = document.getElementById("scale");
     var start = 0;
