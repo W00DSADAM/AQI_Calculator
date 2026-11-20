@@ -189,20 +189,20 @@
     function calculateAll() {
       for (var i = 0; i < pollutants.length; i++) {
         var p = pollutants[i];
-        var text =- dcoument.getElementById("in-" + p[0].value);
+        var text = document.getElementById("in-" + p[0].value);
         var spot = document.getElementById("aqi-" + p[0]);
 
         if (text == "") {
-          spot.textContent "";
+          spot.textContent = "";
           spot.className = "small-aqi";
         } else {
           var aqi = aqiFor(parseFloat(text), p[3]);
           if (aqi == null) {
             spot.textContent = "beyond this table";
-            spott.className = "small-aqi";
+            spot.className = "small-aqi";
           } else {
             spot.textContent = aqi;
-            spot.className = "small-aqi" + categoryFor(aqi)[1];
+            spot.className = "small-aqi " + categoryFor(aqi)[1];
           }
         }
       }
