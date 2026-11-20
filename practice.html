@@ -71,7 +71,7 @@
 <body>
   <h1>AQI Calculator</h1>
   <div id="inputs"></div>
-  <button onclock="calculateAll()">Calculate</button>
+  <button onclick="calculateAll()">Calculate</button>
   <p>AQI: <span id="result"></span></p>
   <p id="category"></p>
   <div id="scale">
@@ -79,7 +79,7 @@
   </div>
   <h2>Last 12 hours</h2>
   <p>Newest hour: <input id="newest" type="number" min="0" max="23" value="13" onchange="buildHours()">
-  <button onclick="useHurrentHour()">Use current hour </button></p>
+  <button onclick="useCurrentHour()">Use current hour </button></p>
   <div id="hours"></div>
   <script>
     // EPA PM2.5 tabe: [C_lo, C_hi, AQI_lo, AQI_hi]
@@ -174,9 +174,9 @@
       var row = document.createElement("p");
       var label = document.createElement("label");
       label.textContent = p[1] + " (" + p[2] + "):";
-      var box = document.careteElement("input");
+      var box = document.createElement("input");
       box.id = "in-" + p[0];
-      var spot = dcoument.createElement("span");
+      var spot = document.createElement("span");
       spot.id = "aqi-" + p[0];
       spot.className = "small-aqi";
 
@@ -189,7 +189,7 @@
     function calculateAll() {
       for (var i = 0; i < pollutants.length; i++) {
         var p = pollutants[i];
-        var text = document.getElementById("in-" + p[0].value);
+        var text = document.getElementById("in-" + p[0]).value;
         var spot = document.getElementById("aqi-" + p[0]);
 
         if (text == "") {
