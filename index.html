@@ -168,14 +168,14 @@
              }
              return categories[categories.length - 1];
            }
-    // The Pollutants: [id, label, units, table]
+    // The Pollutants: [id, label, units, table, message, decimals]
     var pollutants = [
-      ["pm25", "PM2.5",  "ug/m3", pm25, ""],
-      ["pm10", "PM10",  "ug/m3", pm10, ""],
-      ["ozone", "Ozone (8-hr)",  "ppb", ozone, "Use 1-hr"],
-      ["ozone1", "Ozone (1-hr)", "ppb", ozone1, "Use 8-hr"],
-      ["so2", "SO2 (1-hr)",  "ppb", so2, "Use 24-hr"],
-      ["so224", "SO2 (24-hr)", "ppb", so224, "Use 1-hr"],
+      ["pm25", "PM2.5",  "ug/m3", pm25, "", 1],
+      ["pm10", "PM10",  "ug/m3", pm10, "", 0],
+      ["ozone", "Ozone (8-hr)",  "ppb", ozone, "Use 1-hr", 0],
+      ["ozone1", "Ozone (1-hr)", "ppb", ozone1, "Use 8-hr", 0],
+      ["so2", "SO2 (1-hr)",  "ppb", so2, "Use 24-hr", 0],
+      ["so224", "SO2 (24-hr)", "ppb", so224, "Use 1-hr", 0],
     ];
 
     // Build one row per pollutant: label, input box, AQI spot
@@ -203,29 +203,37 @@
       
       for (var i = 0; i < pollutants.length; i++) {
         var p = pollutants[i];
-        var text = document.getElementById("in-" + p[0]).value;
+        var text = document.getElementById("in-" + p[0]).value.trim();
         var spot = document.getElementById("aqi-" + p[0]);
-
+        spot.className = "small-aqi";
+        
         if (text == "") {
           spot.textContent = "";
-          spot.className = "small-aqi";
-        } else {
-          var aqi = aqiFor(parseFloat(text), p[3]);
+          continue;
+        }
+        var c = Number(text);
+        if (isNaN(c)) {
+          spot.textContent = "Not a number";
+          continute;
+        }
+        c= Math.max (c, 0);  //negatives count as 0
+        var f = Math.pow(10, p[5]); //10 for 1 decimal, 1 for whole numbers
+        c= Math.floor (c * f + 0.000001) / f;
+        
+          var aqi = aqiFor(c, p[3]);
           if (aqi == null) {
             spot.textContent = p[4];
-            spot.className = "small-aqi";
           } else {
             spot.textContent = aqi;
             spot.className = "small-aqi " + categoryFor(aqi)[1];
             if (aqi > highest) {
               highest = aqi;
               worst = p[1];
+            }
           }
         }
+        showOverall(highest, worst);
       }
-    }
-    showOverall(highest, worst);
-  }
 
   //show the overall AQI in the big badge, category, and scale
     function showOverall(aqi, pollutant) {
