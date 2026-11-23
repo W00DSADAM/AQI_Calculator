@@ -193,7 +193,7 @@
     }
     // Work out each pollutant's AQI, then the overall (highest) AQI
     function calculateAll() {
-      var hightest = -1;
+      var highest = -1;
       var worst = "";
       
       for (var i = 0; i < pollutants.length; i++) {
@@ -212,6 +212,9 @@
           } else {
             spot.textContent = aqi;
             spot.className = "small-aqi " + categoryFor(aqi)[1];
+            if (aqi > highest) {
+              highest = aqi;
+              worst = p[1];
           }
         }
       }
