@@ -17,7 +17,11 @@
     input {
       font-size: 18px;
       padding: 6px;
-      width: 100px;
+      width: 100px
+      background: #262626;
+      color: white;
+      border: 1px solid #3a3a3a;
+      border-radius: 6px;
     }
     button {
       background: #1a4d7a;
@@ -66,24 +70,43 @@
       height: 16px;
       background: black;
     }
-    
+   .card {
+    background: #1b1b1b;
+     border: 1px solid #2e2e2e;
+     border-radius: 10px;
+     padding: 16px 20px;
+     margin-bottom: 20px;
+     box-shadow: 0 2px 8px rgba(255, 255, 255, 0.04);
+   }
+   .card h2 {
+     margin-top: 0;
+     color: #6cb4ee;
+   }
   </style>
 </head>
 <body>
   <h1>AQI Calculator</h1>
+  <div class="card">
+  <h2>Pollutants</h2>
   <div id="inputs"></div>
   <button onclick="calculateAll()">Calculate</button>
+  </div>
+  <div class="card">
+  <h2>Overall AQI</h2>
   <p>AQI: <span id="result"></span></p>
   <p id="category"></p>
   <div id="scale">
     <div id="marker"></div>
   </div>
+  </div>
+  <div class="card">
   <h2>Ozone 8-hour average</h2>
   <p>Last hour: <input id="newest" type="number" min="0" max="23" value="20" onchange="buildHours()">
   <button onclick="useCurrentHour()">Use current hour</button></p>
   <div id="hours"></div>
   <button onclick="average8()">Average</button> 
   <p>8-hour average: <span id="avg8"></span></p>
+  </div>
   <script>
     
   // Breakpoints: [C_lo, C_hi, AQI_lo, AQI_hi]
@@ -250,7 +273,7 @@
       }
       var cat = categoryFor(aqi);
       result.textContent = aqi;
-      result.className = cat[1]
+      result.className = cat[1];
       category.textContent = cat[2] + " (from " + pollutant + ")";
       marker.style.left = Math.min(aqi / 5, 99) + "%";
     }
