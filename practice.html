@@ -77,10 +77,12 @@
   <div id="scale">
     <div id="marker"></div>
   </div>
-  <h2>Last 12 hours</h2>
-  <p>Newest hour: <input id="newest" type="number" min="0" max="23" value="13" onchange="buildHours()">
-  <button onclick="useCurrentHour()">Use current hour </button></p>
+  <h2>Ozone 8-hour average</h2>
+  <p>Last hour: <input id="newest" type="number" min="0" max="23" value="20" onchange="buildHours()">
+  <button onclick="useCurrentHour()">Use current hour</button></p>
   <div id="hours"></div>
+  <button onclick="average8()">Average</button> 
+  <p>8-hour average: <span id="avg8"></span></p>
   <script>
     // EPA PM2.5 tabe: [C_lo, C_hi, AQI_lo, AQI_hi]
     var rows = [
@@ -246,7 +248,7 @@
       for (var i = 7; i >=0; i--) {
         var h = (newest - i + 24) % 24;
         var row = document.createElement("p");
-        var label = document.createElement("label")
+        var label = document.createElement("label");
         label.textContent = h + ":00";
         var input= document.createElement("input");
         input.id = "hour-" + i;
