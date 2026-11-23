@@ -166,11 +166,11 @@
            }
     // The Pollutants: [id, label, units, table]
     var pollutants = [
-      ["pm25", "PM2.5",  "ug/m3", pm25],
-      ["pm10", "PM10",  "ug/m3", pm10],
-      ["ozone", "Ozone (8-hr)",  "ppb", ozone],
-      ["ozone1", "Ozone (1-hr)", "ppb", ozone1],
-      ["so2", "SO2 (1-hr)",  "ppb", so2],
+      ["pm25", "PM2.5",  "ug/m3", pm25, ""],
+      ["pm10", "PM10",  "ug/m3", pm10, ""],
+      ["ozone", "Ozone (8-hr)",  "ppb", ozone, "Use 1-hr"],
+      ["ozone1", "Ozone (1-hr)", "ppb", ozone1, "Use 8-hr"],
+      ["so2", "SO2 (1-hr)",  "ppb", so2, "Use 24-hr"],
     ];
 
     // Build one row per pollutant: label, input box, AQI spot
@@ -207,7 +207,7 @@
         } else {
           var aqi = aqiFor(parseFloat(text), p[3]);
           if (aqi == null) {
-            spot.textContent = "Use 8-hr";
+            spot.textContent = p[4];
             spot.className = "small-aqi";
           } else {
             spot.textContent = aqi;
