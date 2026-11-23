@@ -1,2 +1,2 @@
-# My-Practice
-Practicing coding concepts 
+# Adam's AQI Calculator
+Practicing web design concepts
