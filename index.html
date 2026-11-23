@@ -122,6 +122,10 @@
       [205, 404, 201, 300],
       [405, 604, 301, 500],
      ];
+    var so224 = [ // 24-hour, ppb (starts at AQI 201)
+      [305, 604, 201, 300],
+      [605, 1004, 301, 500]
+    ];
     //Categories: [top AQI, class, name]
     var categories = [
       [50, "good", "Good"],
@@ -171,6 +175,7 @@
       ["ozone", "Ozone (8-hr)",  "ppb", ozone, "Use 1-hr"],
       ["ozone1", "Ozone (1-hr)", "ppb", ozone1, "Use 8-hr"],
       ["so2", "SO2 (1-hr)",  "ppb", so2, "Use 24-hr"],
+      ["so224", "SO2 (24-hr)", "ppb", so224, "Use 1-hr"],
     ];
 
     // Build one row per pollutant: label, input box, AQI spot
