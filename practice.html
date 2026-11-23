@@ -238,18 +238,46 @@
       result.className = "hazardous";
       category.textContent = "Beyond the AQI";
     }
-     // Build the 12 hour labels, newest first
+     // Build 8 hourly ozone boxed, oldest first
     function buildHours() {
       var newest = parseInt(document.getElementById("newest").value);
       var box = document.getElementById("hours");
-      box.innerHTML="";
-      for(var i = 0; i < 12; i++) {
+      box.innerHTML = "";
+      for (var i = 7; i >=0; i--) {
         var h = (newest - i + 24) % 24;
-        var label = document.createElement("div");
-        label.textContent = "Hour " + h + " (" + i + " hours ago)";
-        box.appendChild(label);
+        var row = document.createElement("p");
+        var label = document.createElement("label")
+        label.textContent = h + ":00";
+        var input= document.createElement("input");
+        input.id = "hour-" + i;
+        row.appendChild(label);
+        row.appendChild(input);
+        box.appendChild(row);
       }
     }
+
+    //Average the 8 hours (EPA: at least 6 needed)
+    function average8() {
+    var total = 0;
+    var count = 0;
+    for (var i = 0; i < 8; i++) {
+      var text = document.getElementById("hour-" + i).value;
+      if (text != "") {
+        total = total + parseFloat(text);
+        count = count + 1;
+      }
+    }
+    var out = document.getElementById("avg8");
+    if (count < 6) {
+      out.textContent = "Need at least 6 hours (have " + count + ")";
+      return;
+    }
+    var avg=Math.floor(total / count);
+    out.textContent = avg + " ppb";
+    document.getElementById("in-ozone").value = avg;
+    calculateAll();
+    }
+    
     // Read the computer's clock
     function useCurrentHour() {
       var now = new Date();
