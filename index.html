@@ -85,16 +85,8 @@
   <button onclick="average8()">Average</button> 
   <p>8-hour average: <span id="avg8"></span></p>
   <script>
-    // EPA PM2.5 tabe: [C_lo, C_hi, AQI_lo, AQI_hi]
-    var rows = [
-      [0.0, 9.0, 0, 50, "good", "Good"],
-      [9.1, 35.4, 51, 100, "moderate", "Moderate"],
-      [35.5, 55.4, 101, 150, "usg", "Unhealthy for Sensitive Groups"],
-      [55.5, 125.4, 151, 200, "unhealthy", "Unhealthy"],
-      [125.5, 225.4, 201, 300, "very", "Very Unhealthy"],
-      [225.5, 325.4, 301, 500, "hazardous", "Hazardous"]
-    ];
-    // Breakpoints: [C_lo, C_hi, AQI_lo, AQI_hi]
+    
+  // Breakpoints: [C_lo, C_hi, AQI_lo, AQI_hi]
     var pm25 = [               // 24-hour, ug/m3
       [0.0, 9.0, 0, 50],
       [9.1, 35.4, 51, 100],
@@ -199,8 +191,11 @@
       row.appendChild(spot);
       inputs.appendChild(row);
     }
-    // Work out each pollutant's AQI
+    // Work out each pollutant's AQI, then the overall (highest) AQI
     function calculateAll() {
+      var hightest = -1;
+      var worst = "";
+      
       for (var i = 0; i < pollutants.length; i++) {
         var p = pollutants[i];
         var text = document.getElementById("in-" + p[0]).value;
@@ -221,36 +216,37 @@
         }
       }
     }
-    // Build the color scale from the table
+    showOverall(highest, worst);
+  }
+
+  //show the overall AQI in the big badge, category, and scale
+    function showOverall(aqi, pollutant) {
+      var result = document.getElementById("result";
+      var category = document.getElementById("category");
+      var marker = document.getElementById("marker");
+
+      if (aqi <0) {
+        result.textConcent = "";
+        result.className = "";
+        category.textContent = ""; 
+        marker.style.left = "0%";
+        return;
+      }
+      var cat = categoryFor(aqi);
+      result.textContent = aqi;
+      result.className = cat[1]
+      category.textContent = cat[2] + " (from " + pollutant + ")";
+      marker.style.left = Math.min(aqi / 5, 99) + "%";
+    }
+    // Build the color scale from the categories table
     var scale = document.getElementById("scale");
     var start = 0;
-    for (var i = 0; i < rows.length; i++) {
+    for (var i = 0; i < categories.length; i++) {
       var segment = document.createElement("div");
-      segment.className = rows[i][4];
-      segment.style.width = (rows[i][3] - start) / 5 + "%"; 
+      segment.className = categories[i][1];
+      segment.style.width = (categories[i][0] - start) / 5 + "%"; 
       scale.appendChild(segment);
-      start = rows[i][3];
-    }
-    function calculate() { 
-      var c = parseFloat(document.getElementById("conc").value);
-      var result = document.getElementById("result");
-      var category = document.getElementById("category");
-
-      for (var i = 0; i <rows.length; i++)  {
-        var r = rows[i];
-        if (c <= r[1]) {
-          var aqi = (r[3] - r[2]) / (r[1] - r[0]) * (c - r[0]) + r[2];
-          result.textContent = Math.round(aqi);
-          result.className = r[4];
-          category.textContent = r[5];
-          document.getElementById("marker").style.left = (aqi / 5) + "%";
-          return;
-        }
-      }
-      result.textContent ="Above 500";
-      document.getElementById("marker").style.left = "99%"; 
-      result.className = "hazardous";
-      category.textContent = "Beyond the AQI";
+      start = categories[i][0];
     }
      // Build 8 hourly ozone boxed, oldest first
     function buildHours() {
