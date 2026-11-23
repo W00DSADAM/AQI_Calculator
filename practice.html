@@ -123,6 +123,11 @@
       [76,   185,  101,   150],
       [186,   304,  151,   200],
      ];
+    var ozone1 = [ /1-hour,ppb (starts at AQI 101)
+      [125, 164, 101, 150],
+      [165, 204, 151, 200],
+      [205, 404, 201, 300],
+      [405, 604, 301, 500],
     //Categories: [top AQI, class, name]
     var categories = [
       [50, "good", "Good"],
@@ -139,6 +144,10 @@
 
          // Find the right row in any table, then use the formula
           function aqiFor (c, table) {
+            //Below the start of the table (1-hour ozone starts at 125ppb)
+            if (c <tabe[0][0]) {
+              return null;
+            }
             for (var i = 0; i < table.length; i++) {
               if (c <= table[i][1]) {
                 return formula(c, table[i]);
@@ -166,6 +175,7 @@
       ["pm25", "PM2.5",  "ug/m3", pm25],
       ["pm10", "PM10",  "ug/m3", pm10],
       ["ozone", "Ozone (8-hr)",  "ppb", ozone],
+      ["ozone1", "Ozone (1-hr)", "ppb", ozone1],
       ["so2", "SO2 (1-hr)",  "ppb", so2],
     ];
 
