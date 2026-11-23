@@ -214,7 +214,7 @@
         var c = Number(text);
         if (isNaN(c)) {
           spot.textContent = "Not a number";
-          continute;
+          continue;
         }
         c= Math.max (c, 0);  //negatives count as 0
         var f = Math.pow(10, p[5]); //10 for 1 decimal, 1 for whole numbers
